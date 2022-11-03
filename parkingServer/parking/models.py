@@ -58,8 +58,8 @@ class Movement(models.Model):
     exit_datetime = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Movement entry'
-        verbose_name_plural = 'Movement entries'
+        verbose_name = 'Gate movement record'
+        verbose_name_plural = 'Gate movement records'
 
     def __str__(self):
         return f'{self.reference_number}'

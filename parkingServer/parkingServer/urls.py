@@ -14,8 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
+
+from parking import views as parking_views
+
+router = routers.DefaultRouter()
+router.register(r'gates', parking_views.GateViewSet, basename='gates')
+router.register(r'movements', parking_views.MovementViewSet, basename='movements')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/parking/', include(router.urls)),
 ]
+
