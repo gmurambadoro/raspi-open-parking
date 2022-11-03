@@ -35,6 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # plugins
+    'rest_framework',
+    'django_filters',
+
+    # local apps
 ]
 
 MIDDLEWARE = [
@@ -79,6 +85,7 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD', 'admin.123'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '3306'),
+        'TIME_ZONE': os.getenv('TIME_ZONE', 'Africa/Johannesburg'),
     },
 }
 
@@ -105,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.getenv('TIME_ZONE', 'Africa/Johannesburg')
 
 USE_I18N = True
 
