@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Gate, Movement
+from .models import Gate, Movement, Product
 
 
 @admin.register(Gate)
@@ -14,3 +14,10 @@ class GateAdmin(admin.ModelAdmin):
 class MovementAdmin(admin.ModelAdmin):
     list_display = ('reference_number', 'entrance_datetime', 'entrance_gate', 'exit_gate', 'exit_datetime', 'status',)
     search_fields = ('reference_number', 'entrance_gate__name', 'exit_gate__name',)
+
+
+@admin.register(Product)
+class ParkingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'rate',)
+    search_fields = ('name',)
+    list_filter = ('rate',)

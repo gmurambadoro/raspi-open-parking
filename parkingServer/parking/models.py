@@ -11,7 +11,18 @@ DIRECTION_CHOICES = [
     ('IN_OUT', 'IN & OUT'),
 ]
 
+PRODUCT_RATE_CHOICES = [
+    ('PER_HOUR', 'Per Hour'),
+    ('PER_DAY', 'Per Day'),
+    ('FLAT_FEE', 'Flat Fee'),
+]
+
 pin_validators = (validators.MinValueValidator(0), validators.MaxValueValidator(100),)
+
+
+def generate_uuid():
+    """Generates a unique uuid string each time it is called"""
+    return str(uuid.uuid4())
 
 
 class Gate(models.Model):
@@ -46,11 +57,25 @@ class Gate(models.Model):
         return f'{self.name} : {self.get_direction_display()}'
 
 
+class Product(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    rate = models.CharField(max_length=20, null=False, blank=False,
+                            choices=PRODUCT_RATE_CHOICES,
+                            default=PRODUCT_RATE_CHOICES[0][0])
+
+    class Meta:
+        verbose_name = 'Product configuration'
+        verbose_name_plural = 'Product configurations'
+
+    def __str__(self):
+        return self.name
+
+
 class Movement(models.Model):
     """Represents an entry or exit via any one of the configured gates"""
     reference_number = models.CharField(max_length=50, unique=True, null=False, blank=False,
                                         editable=False,
-                                        default=lambda: str(uuid.uuid4()),
+                                        default=generate_uuid(),
                                         verbose_name='Barcode')
     entrance_gate = models.ForeignKey(Gate, on_delete=models.CASCADE, null=False, related_name='entrance_gates')
     entrance_datetime = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now)
